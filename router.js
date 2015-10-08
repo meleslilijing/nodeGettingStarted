@@ -1,16 +1,19 @@
 var handle = require("./handle");
 
-function route(pathname, handle, response) {
-	console.log("About to route a request for " + pathname);
-	if(typeof handle[pathname] === 'function') {
-		return handle[pathname](response);
+var handle = {
+	"/": handle.start,
+	"/upload": handle.upload
+};
+
+function router(response, pathname, postDate) {
+	if(typeof handle[pathname] === "function") {
+		handle[pathname](response, postDate);
 	} else {
 		// 404
-		console.log("No request handler found for " + pathname);
 		response.writeHead(404, {"Content-Type": "text/plain"});
-		response.write("404 Not Found!");
+		response.write("404 Not Found.");
 		response.end();
 	}
 }
 
-exports.route = route;
+exports.router = router;

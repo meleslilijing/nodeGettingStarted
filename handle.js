@@ -1,28 +1,33 @@
-var exec = require("child_porcess").exec;
+var querystring = require("querystring");
 
-function start(response) {
-	console.log("Request handler 'start' was called.")
+function start(response, postDate) {
+	response.writeHead(200, {"Content-Type" : "text/html"});
 
-	sleep(10000, function() {
-		response.writeHead(200, {"Content-Type": "text-plain"});
-		response.write("Hello Start.");
-		response.end();
-	})	
-}
+	var body = '\
+		<html>\
+			<head>\
+				<meta charset="utf-8"/>\
+				<title>start</title>\
+			</head>\
+			<body>\
+				<form action="/upload" method="post">\
+					<textarea name="text" id="text" cols="30" rows="10"></textarea>\
+					<input type="submit" value="submit text" />\
+				</form>\
+			</body>\
+		</html>\
+	';
 
-function upload(response) {
-	console.log("Request handler 'upload' was called.")
-	response.writeHead(200, {"Content-Type": "text/plain"});
-	response.write("Hello Upload.");
+	response.write(body);
+	response.end();
+} 
+
+function upload(response, postDate) {
+	response.writeHead(200, {"Content-Type" : "text/plain"});
+	response.write("You have sent the text:");
+	response.write(querystring.parse(postDate).text);
 	response.end();
 }
 
 exports.start = start;
 exports.upload = upload;
-
-// utils
-function sleep(milliSecond, callback) {
-	var startTime = new Date().getTime();
-	while(new Date().getTime() < startTime + milliSecond){};
-	callback();
-}

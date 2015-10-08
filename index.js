@@ -1,11 +1,6 @@
 var server = require("./server");
 var router = require("./router");
-var requestHandlers = require("./handle");
 
-var handle = {
-	"/" : requestHandlers.start,
-	"/start" : requestHandlers.start,
-	"/upload" : requestHandlers.upload
-}
-
-server.start(router.route, handle);
+// file upload node-module: ./formidable
+// local file load node-module: fs
+server.start(router.router);
