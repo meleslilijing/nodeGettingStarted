@@ -1,3 +1,7 @@
+/**
+ * 向流写入数据 demo
+ */
+
 var fs = require('fs');
 var data = "It's a writeStream demo on nodejs."
 
@@ -14,3 +18,5 @@ writeStream.on('finish', function() {
 writeStream.on('error', function() {
 	console.log(err.stack);
 })
+
+console.log("The program is over.");
